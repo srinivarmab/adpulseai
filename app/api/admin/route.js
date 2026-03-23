@@ -1,9 +1,68 @@
-import prisma from "@/lib/db";
-export async function GET() {
-  const users = await prisma.user.count().catch(() => 12);
-  const paidUsers = await prisma.user.count({ where: { subscriptionStatus: "active" } }).catch(() => 4);
-  const subscriptions = await prisma.subscription.findMany({ where: { status: "active" } }).catch(() => []);
-  const mrr = subscriptions.reduce((sum, s) => sum + (s.plan === "agency" ? 14999 : s.plan === "growth" ? 4999 : s.plan === "pro" ? 1999 : 999), 0) || 32994;
-  const userList = await prisma.user.findMany({ take: 20 }).catch(() => [{ id: "1", email: "demo@adpulseai.com", plan: "pro", subscriptionStatus: "active" }]);
-  return Response.json({ users, paidUsers, mrr, churn: 5, userList });
+import { prisma } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+export async function GET(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const clientId = searchParams.get("clientId");
+
+    if (!clientId) {
+      return Response.json({ error: "clientId required" }, { status: 400 });
+    }
+
+    const [campaigns, searchTerms, products, geos, devices] = await Promise.all([
+      prisma.campaign.findMany({
+        where: { clientId },
+        orderBy: { date: "desc" },
+        take: 20
+      }),
+      prisma.searchTerm.findMany({
+        where: { clientId },
+        orderBy: { date: "desc" },
+        take: 20
+      }),
+      prisma.productPerformance.findMany({
+        where: { clientId },
+        orderBy: { date: "desc" },
+        take: 20
+      }),
+      prisma.geoPerformance.findMany({
+        where: { clientId },
+        orderBy: { date: "desc" },
+        take: 20
+      }),
+      prisma.devicePerformance.findMany({
+        where: { clientId },
+        orderBy: { date: "desc" },
+        take: 20
+      })
+    ]);
+
+    const totalSpend = campaigns.reduce((a, c) => a + (c.cost || 0), 0);
+    const totalRevenue = campaigns.reduce((a, c) => a + (c.revenue || 0), 0);
+    const totalConversions = campaigns.reduce((a, c) => a + (c.conversions || 0), 0);
+    const roas = totalSpend > 0 ? totalRevenue / totalSpend : 0;
+
+    return Response.json({
+      summary: {
+        totalSpend,
+        totalRevenue,
+        totalConversions,
+        roas
+      },
+      campaigns,
+      searchTerms,
+      products,
+      geos,
+      devices
+    });
+  } catch (error) {
+    console.error("Agency dashboard API error:", error);
+    return Response.json(
+      { error: "Agency dashboard API failed" },
+      { status: 500 }
+    );
+  }
 }
