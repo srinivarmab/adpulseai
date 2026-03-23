@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String          @id @default(uuid())
+  email              String          @unique
+  name               String?
+  plan               String          @default("trial")
+  subscriptionStatus String          @default("inactive")
+  trialStart         DateTime        @default(now())
+  trialEnd           DateTime?
+  planStart          DateTime?
+  planEnd            DateTime?
+  agencyName         String?
+  logoUrl            String?
+  supportEmail       String?
+  supportPhone       String?
+  createdAt          DateTime        @default(now())
+  leads              Lead[]
+  clients            Client[]
+  subscription       Subscription?
+  googleAds          GoogleAdsAccount?
+  alertRules         AlertRule[]
+  alertLogs          AlertLog[]
+  reportLogs         ReportLog[]
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  userId    String?
+  name      String
+  email     String
+  website   String?
+  budget    String?
+  goal      String?
+  gclid     String?
+  status    String   @default("New")
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Subscription {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  plan        String
+  status      String
+  provider    String   @default("razorpay")
+  paymentId   String?
+  orderId     String?
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  autoRenew   Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model GoogleAdsAccount {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  customerId   String?
+  accessToken  String
+  refreshToken String
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Client {
+  id          String              @id @default(uuid())
+  userId      String
+  name        String
+  email       String?
+  website     String?
+  customerId  String?
+  createdAt   DateTime            @default(now())
+  user        User                @relation(fields: [userId], references: [id])
+  campaigns   Campaign[]
+  searchTerms SearchTerm[]
+  products    ProductPerformance[]
+  geos        GeoPerformance[]
+  devices     DevicePerformance[]
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  userId      String
+  clientId    String?
+  campaignId  String
+  name        String
+  clicks      Int
+  cost        Float
+  conversions Float
+  revenue     Float
+  date        DateTime
+  createdAt   DateTime @default(now())
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
+model SearchTerm {
+  id          String   @id @default(cuid())
+  userId      String
+  clientId    String?
+  term        String
+  clicks      Int
+  cost        Float
+  conversions Float
+  revenue     Float
+  date        DateTime
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
+model ProductPerformance {
+  id          String   @id @default(cuid())
+  userId      String
+  clientId    String?
+  productId   String
+  name        String
+  clicks      Int
+  cost        Float
+  conversions Float
+  revenue     Float
+  date        DateTime
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
+model GeoPerformance {
+  id          String   @id @default(cuid())
+  userId      String
+  clientId    String?
+  country     String
+  clicks      Int
+  cost        Float
+  conversions Float
+  revenue     Float
+  date        DateTime
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
+model DevicePerformance {
+  id          String   @id @default(cuid())
+  userId      String
+  clientId    String?
+  device      String
+  clicks      Int
+  cost        Float
+  conversions Float
+  revenue     Float
+  date        DateTime
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
+model AlertRule {
+  id          String   @id @default(uuid())
+  userId      String
+  metric      String
+  condition   String
+  threshold   Float
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model AlertLog {
+  id          String   @id @default(uuid())
+  userId      String
+  alertRuleId String
+  metricValue Float
+  message     String
+  sentAt      DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model ReportLog {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  status    String
+  sentAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
