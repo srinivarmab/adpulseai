@@ -1,3 +1,12 @@
+function StatCard({ title, value }) {
+  return (
+    <div className="rounded-2xl bg-white p-6 shadow">
+      <div className="text-sm text-slate-500">{title}</div>
+      <div className="mt-4 text-4xl font-bold text-slate-900">{value}</div>
+    </div>
+  );
+}
+
 export default function AgencyPage() {
   return (
     <div className="min-h-screen bg-slate-50 p-6">
@@ -24,15 +33,6 @@ export default function AgencyPage() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function StatCard({ title, value }) {
-  return (
-    <div className="rounded-2xl bg-white p-6 shadow">
-      <div className="text-sm text-slate-500">{title}</div>
-      <div className="mt-4 text-4xl font-bold text-slate-900">{value}</div>
     </div>
   );
 }
