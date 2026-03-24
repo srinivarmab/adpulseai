@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+function FeatureCard({ title, desc }) {
+  return (
+    <div className="rounded-2xl bg-white p-6 shadow">
+      <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+      <p className="mt-2 text-sm text-slate-600">{desc}</p>
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -41,8 +50,39 @@ export default function HomePage() {
           <p className="mt-4 max-w-2xl text-slate-300">
             Detect wasted spend, improve ROAS, and scale faster with a clean AI-powered dashboard.
           </p>
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link
+              href="/dashboard"
+              className="rounded-xl bg-emerald-400 px-5 py-3 font-semibold text-slate-950"
+            >
+              Open Dashboard
+            </Link>
+
+            <Link
+              href="/admin"
+              className="rounded-xl border border-white/20 px-5 py-3 font-semibold text-white"
+            >
+              Admin View
+            </Link>
+          </div>
+        </section>
+
+        <section className="mt-10 grid gap-6 md:grid-cols-3">
+          <FeatureCard
+            title="AI Audit"
+            desc="Find wasted spend and underperforming campaigns fast."
+          />
+          <FeatureCard
+            title="Recommendations"
+            desc="Get simple, actionable growth suggestions."
+          />
+          <FeatureCard
+            title="Agency Ready"
+            desc="Manage clients, dashboards, and reporting from one place."
+          />
         </section>
       </main>
     </div>
   );
-                }
+}
