@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "AdPulse AI",
-  description: "AI-powered Google Ads optimization"
+  description: "AI-powered Google Ads optimization",
 };
 
 export default function RootLayout({ children }) {
