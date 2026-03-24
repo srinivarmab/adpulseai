@@ -1,36 +1,50 @@
+import Link from "next/link";
+
 export default function DashboardPage() {
+  const accent = "text-blue-600";
+
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <div>
-          <h1 className="text-4xl font-bold text-slate-900">AdPulse AI Dashboard</h1>
-          <p className="mt-2 text-slate-500">Optimize campaigns. Maximize ROAS.</p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          <Card title="Total Spend" value="$12,430" />
-          <Card title="Conversions" value="320" />
-          <Card title="ROAS" value="4.8x" accent="text-emerald-600" />
-        </div>
-
-        <div className="rounded-2xl bg-white p-6 shadow">
-          <h2 className="text-xl font-semibold text-slate-900">AI Recommendations</h2>
-          <div className="mt-4 space-y-3">
-            <div className="rounded-xl bg-slate-50 p-4">Increase budget on Campaign A</div>
-            <div className="rounded-xl bg-slate-50 p-4">Pause low-performing keywords</div>
-            <div className="rounded-xl bg-slate-50 p-4">Improve landing page conversion rate</div>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Header */}
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
+          
+          <div className="text-2xl font-bold">
+            AdPulse <span className="text-blue-600">AI</span>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function Card({ title, value, accent = "text-slate-900" }) {
-  return (
-    <div className="rounded-2xl bg-white p-6 shadow">
-      <div className="text-sm text-slate-500">{title}</div>
-      <div className={mt-4 text-4xl font-bold ${accent}}>{value}</div>
+          <nav className="flex gap-4">
+            <Link href="/" className="text-sm text-slate-600 hover:text-black">
+              Home
+            </Link>
+            <Link href="/agency" className="text-sm text-slate-600 hover:text-black">
+              Agency
+            </Link>
+          </nav>
+
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="mx-auto max-w-5xl px-4 py-10">
+        
+        <div className="rounded-2xl bg-white p-6 shadow">
+
+          <div className="text-sm text-slate-500">Dashboard</div>
+
+          {/* ✅ FIXED LINE */}
+          <div className={`mt-4 text-4xl font-bold ${accent}`}>
+            Welcome to Dashboard 🚀
+          </div>
+
+          <p className="mt-4 text-slate-600">
+            Track campaigns, ROAS, and performance insights.
+          </p>
+
+        </div>
+
+      </main>
     </div>
   );
 }
