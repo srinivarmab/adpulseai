@@ -4,25 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "postinstall": "prisma generate"
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "@prisma/client": "^5.22.0",
-    "framer-motion": "^11.11.11",
-    "iconv-lite": "^0.6.3",
     "next": "14.2.15",
-    "nodemailer": "^6.9.15",
-    "prisma": "^5.22.0",
-    "razorpay": "^2.9.4",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "recharts": "^2.12.7"
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1"
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14"
   }
 }
