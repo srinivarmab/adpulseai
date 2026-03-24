@@ -1,36 +1,34 @@
 export default function DashboardPage() {
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">AdPulse AI Dashboard</h1>
-        <p className="text-gray-500">Optimize campaigns. Maximize ROAS.</p>
+        <h1 className="text-3xl font-bold text-slate-900">AdPulse AI Dashboard</h1>
+        <p className="mt-2 text-slate-500">Optimize campaigns. Maximize ROAS.</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-xl bg-white p-4 shadow">
-          <p className="text-gray-500">Total Spend</p>
-          <h2 className="text-2xl font-bold">$12,430</h2>
-        </div>
-
-        <div className="rounded-xl bg-white p-4 shadow">
-          <p className="text-gray-500">Conversions</p>
-          <h2 className="text-2xl font-bold">320</h2>
-        </div>
-
-        <div className="rounded-xl bg-white p-4 shadow">
-          <p className="text-gray-500">ROAS</p>
-          <h2 className="text-2xl font-bold text-green-600">4.8x</h2>
-        </div>
+        <Card title="Total Spend" value="$12,430" />
+        <Card title="Conversions" value="320" />
+        <Card title="ROAS" value="4.8x" accent="text-emerald-600" />
       </div>
 
-      <div className="rounded-xl bg-white p-4 shadow">
-        <h2 className="mb-3 text-xl font-semibold">AI Recommendations</h2>
-        <ul className="space-y-2">
-          <li className="rounded bg-gray-50 p-3">Increase budget on Campaign A</li>
-          <li className="rounded bg-gray-50 p-3">Pause low-performing keywords</li>
-          <li className="rounded bg-gray-50 p-3">Improve landing page conversion rate</li>
-        </ul>
+      <div className="rounded-2xl bg-white p-5 shadow">
+        <h2 className="mb-4 text-xl font-semibold text-slate-900">AI Recommendations</h2>
+        <div className="space-y-3">
+          <div className="rounded-xl bg-slate-50 p-4">Increase budget on Campaign A</div>
+          <div className="rounded-xl bg-slate-50 p-4">Pause low-performing keywords</div>
+          <div className="rounded-xl bg-slate-50 p-4">Improve landing page conversion rate</div>
+        </div>
       </div>
+    </div>
+  );
+}
+
+function Card({ title, value, accent = "text-slate-900" }) {
+  return (
+    <div className="rounded-2xl bg-white p-5 shadow">
+      <p className="text-sm text-slate-500">{title}</p>
+      <h2 className={mt-3 text-3xl font-bold ${accent}}>{value}</h2>
     </div>
   );
 }
